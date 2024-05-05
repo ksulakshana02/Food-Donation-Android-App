@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "509907172759",
+    "firebase_url": "https://wasteless-c15c5-default-rtdb.firebaseio.com",
+    "project_id": "wasteless-c15c5",
+    "storage_bucket": "wasteless-c15c5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:509907172759:android:baab952c4409ec746698d2",
+        "android_client_info": {
+          "package_name": "com.s22010213.wasteless"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCl8PfRc7Vlt3IumzIZ_LP1GVDCgUYPnwk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
