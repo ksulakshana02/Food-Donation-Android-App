@@ -50,11 +50,6 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (!validEmail() | !validPassword()){
-//
-//                }else {
-//                    checkUser();
-//                }
 
                 String email = loginEmail.getText().toString().trim();
                 String password = loginPassword.getText().toString().trim();
@@ -70,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 if (password.length() < 8){
-                    loginPassword.setError("Password must be >= 8 Characters");
+                    loginPassword.setError("Please must be at least 6 characters long");
                     return;
                 }
 

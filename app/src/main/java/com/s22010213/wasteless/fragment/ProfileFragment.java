@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.s22010213.wasteless.GetStartActivity;
 import com.s22010213.wasteless.LoginActivity;
 import com.s22010213.wasteless.R;
 
@@ -40,7 +41,7 @@ public class ProfileFragment extends Fragment {
 
     public void handleLogout(){
         firebaseAuth.signOut();
-        startActivity(new Intent(getActivity(), LoginActivity.class));
+        startActivity(new Intent(getActivity(), GetStartActivity.class));
     }
 
 

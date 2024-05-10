@@ -36,7 +36,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.271" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageView14"
         android:layout_width="360dp"
         android:layout_height="326dp"
@@ -48,15 +48,15 @@
         app:layout_constraintVertical_bias="0.498"
         app:srcCompat="@drawable/otp" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/start_login_button"
         android:layout_width="330dp"
         android:layout_height="50dp"
-        android:backgroundTint="@color/blue"
         android:fontFamily="@font/inter_semibold"
         android:text="Login"
         android:textSize="16sp"
-        app:cornerRadius="45dp"
+        android:textColor="@color/white"
+        android:background="@drawable/round_back_primary_15"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
@@ -64,7 +64,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.775"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/start_register_button"
         android:layout_width="330dp"
         android:layout_height="50dp"
