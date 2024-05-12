@@ -25,7 +25,7 @@ public class HomeActivity extends AppCompatActivity {
     DonationFragment donationFragment = new DonationFragment();
     MapFragment mapFragment = new MapFragment();
     ProfileFragment profileFragment = new ProfileFragment();
-
+    private FirebaseAuth firebaseAuth;
 
 
 
@@ -35,6 +35,11 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        if (firebaseAuth.getCurrentUser() == null) {
+            startActivity((new Intent(this, GetStartActivity.class)));
+        }
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
 
