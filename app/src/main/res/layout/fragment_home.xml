@@ -53,18 +53,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginTop="12dp">
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="24dp">
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/imageView12"
-                    android:layout_width="373dp"
-                    android:layout_height="141dp"
+                    android:layout_width="353dp"
+                    android:layout_height="140dp"
                     android:src="@drawable/banner"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0"
+                    app:shapeAppearanceOverlay="@style/ImageStyle_Circle"
                     tools:ignore="MissingConstraints" />
 
                 <Button

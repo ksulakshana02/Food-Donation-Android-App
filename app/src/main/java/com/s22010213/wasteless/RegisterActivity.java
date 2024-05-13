@@ -1,8 +1,11 @@
 package com.s22010213.wasteless;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,24 +13,33 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+
 public class RegisterActivity extends AppCompatActivity {
 
     EditText registerName, registerEmail,registerMobile, registerPassword;
+//    ImageView googleBtn;
     TextView loginRedirectText;
     Button registerButton;
-    FirebaseDatabase database;
-    DatabaseReference reference;
     FirebaseAuth firebaseAuth;
+    ProgressDialog progressDialog;
+    DatabaseReference reference;
+//    GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
         registerPassword = findViewById(R.id.register_password);
         registerButton = findViewById(R.id.register_button);
         loginRedirectText = findViewById(R.id.already_registered);
+//        googleBtn = findViewById(R.id.googleIcon);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -48,12 +61,18 @@ public class RegisterActivity extends AppCompatActivity {
             finish();
         }
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Please wait...");
+        progressDialog.setCanceledOnTouchOutside(false);
+
+//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestIdToken(getString(R.string.default_web_client_id))
+//                        .requestEmail()
+//                                .build();
+
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                database = FirebaseDatabase.getInstance();
-                reference = database.getReference("users");
 
                 String name = registerName.getText().toString().trim();
                 String email = registerEmail.getText().toString().trim();
@@ -84,13 +103,14 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
-                firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                firebaseAuth.createUserWithEmailAndPassword(email,password)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
 
                             Toast.makeText(RegisterActivity.this, "You have signup successfully!", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                            updateUserInfo();
                         }else {
                             Toast.makeText(RegisterActivity.this,"Error!" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -98,9 +118,7 @@ public class RegisterActivity extends AppCompatActivity {
                 });
 
 
-                HelperClass helperClass = new HelperClass(name,email,mobile,password);
-                reference.child(name).setValue(helperClass);
-//
+
 //                Toast.makeText(RegisterActivity.this,"You have signup successfully!",Toast.LENGTH_SHORT).show();
 //                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
 //                startActivity(intent);
@@ -116,4 +134,48 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void updateUserInfo(){
+        progressDialog.setMessage("Saving User Info");
+
+        long timeStamp = Utils.getTimestamp();
+        String registerUserEmail = firebaseAuth.getCurrentUser().getEmail();
+        String registerUserUid = firebaseAuth.getUid();
+        String password = registerPassword.getText().toString().trim();
+        String name = registerName.getText().toString().trim();
+        String mobile = registerMobile.getText().toString().trim();
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("name", name);
+        hashMap.put("phoneNumber", mobile);
+        hashMap.put("profileImageUrl", " ");
+        hashMap.put("userType", "Email");
+        hashMap.put("timestamp", timeStamp);
+        hashMap.put("onlineStatus", true);
+        hashMap.put("email", registerUserEmail);
+        hashMap.put("uid", registerUserUid);
+        hashMap.put("password", password);
+
+        reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference.child(registerUserUid)
+                .setValue(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        progressDialog.dismiss();
+
+                        startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
+                        finishAffinity();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        Utils.toast(RegisterActivity.this, "Failed to save info due to "+ e.getMessage());
+                    }
+                });
+
+    }
+
 }

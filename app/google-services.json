@@ -13,7 +13,20 @@
           "package_name": "com.s22010213.wasteless"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "509907172759-c1g2a14sc7t46bujaftcd7orbkskol0v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.s22010213.wasteless",
+            "certificate_hash": "f30a3f244bc7298b7b4727e220a1b78bce8e1fb9"
+          }
+        },
+        {
+          "client_id": "509907172759-u9knp1teu65609akerjsm1bme0eedbj8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCl8PfRc7Vlt3IumzIZ_LP1GVDCgUYPnwk"
@@ -21,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "509907172759-u9knp1teu65609akerjsm1bme0eedbj8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
