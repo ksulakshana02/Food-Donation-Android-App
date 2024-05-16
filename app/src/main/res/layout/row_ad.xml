@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#d9d9d9">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageIv"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/quantum_grey"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_new_image_grey"
+            style="@style/ImageStyle_Corners_Rounded"/>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/imageIv"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="The ad title"/>
+
+        <TextView
+            android:id="@+id/description"
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/imageIv"
+            android:layout_below="@id/title"
+            android:ellipsize="end"
+            android:lines="3"
+            android:text="Description"/>
+
+        <TextView
+            android:id="@+id/availableQuantity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_below="@id/description"
+            android:layout_toEndOf="@id/imageIv"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="20 Available"/>
+
+        <TextView
+            android:id="@+id/foodType"
+            style="@style/TextAppearance.MaterialComponents.Overline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/availableQuantity"
+            android:text="Non-Veg"
+            android:layout_toEndOf="@id/imageIv"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="5dp"/>
+
+        <TextView
+            android:id="@+id/date"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="12sp"
+            android:layout_alignParentEnd="true"
+            android:text="dd/MM/yyyy"
+            android:layout_marginEnd="10dp"
+            android:layout_below="@id/availableQuantity"/>
+
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>

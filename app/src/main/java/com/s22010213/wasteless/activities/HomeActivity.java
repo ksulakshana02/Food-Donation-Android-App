@@ -1,4 +1,4 @@
-package com.s22010213.wasteless;
+package com.s22010213.wasteless.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,12 +7,11 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.s22010213.wasteless.R;
+import com.s22010213.wasteless.activities.GetStartActivity;
 import com.s22010213.wasteless.databinding.ActivityHomeBinding;
 import com.s22010213.wasteless.fragment.DonationFragment;
 import com.s22010213.wasteless.fragment.HomeFragment;

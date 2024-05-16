@@ -21,9 +21,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.s22010213.wasteless.GetStartActivity;
-import com.s22010213.wasteless.LoginActivity;
-import com.s22010213.wasteless.ProfileEditActivity;
+import com.s22010213.wasteless.activities.GetStartActivity;
+import com.s22010213.wasteless.activities.MyListingsActivity;
+import com.s22010213.wasteless.activities.ProfileEditActivity;
 import com.s22010213.wasteless.R;
 import com.s22010213.wasteless.databinding.FragmentProfileBinding;
 
@@ -71,6 +71,13 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(mContext, ProfileEditActivity.class));
+            }
+        });
+
+        binding.listBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, MyListingsActivity.class));
             }
         });
     }

@@ -1,4 +1,4 @@
-package com.s22010213.wasteless;
+package com.s22010213.wasteless.activities;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -6,6 +6,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import com.s22010213.wasteless.databinding.ActivityProfileEditBinding;
 
 import android.Manifest;
 import android.app.Activity;
@@ -13,7 +14,6 @@ import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -22,10 +22,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
-import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.util.Util;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -39,8 +37,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.s22010213.wasteless.databinding.ActivityProfileEditBinding;
-import com.s22010213.wasteless.fragment.HomeFragment;
+import com.s22010213.wasteless.R;
+import com.s22010213.wasteless.Utils;
 import com.s22010213.wasteless.fragment.ProfileFragment;
 
 import java.util.HashMap;

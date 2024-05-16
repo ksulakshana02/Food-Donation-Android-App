@@ -38,9 +38,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.s22010213.wasteless.AdapterImagesPicked;
-import com.s22010213.wasteless.LocationPickerActivity;
-import com.s22010213.wasteless.ModelImagePicked;
+import com.s22010213.wasteless.adapters.AdapterImagesPicked;
+import com.s22010213.wasteless.activities.LocationPickerActivity;
+import com.s22010213.wasteless.models.ModelImagePicked;
 import com.s22010213.wasteless.R;
 import com.s22010213.wasteless.Utils;
 import com.s22010213.wasteless.databinding.FragmentDonationBinding;
@@ -48,7 +48,6 @@ import com.s22010213.wasteless.databinding.FragmentDonationBinding;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class DonationFragment extends Fragment {
 
@@ -439,8 +438,7 @@ public class DonationFragment extends Fragment {
 
                             if (uriTask.isSuccessful()){
                                 HashMap<String, Object> hashMap = new HashMap<>();
-                                //methana poddak aul modelImagePicked.imageUri()
-                                hashMap.put("id", ""+ modelImagePicked.getImageUri());
+                                hashMap.put("id", ""+ modelImagePicked.getId());
                                 hashMap.put("imageUrl", ""+ uploadedImageUrl);
 
                                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Ads");

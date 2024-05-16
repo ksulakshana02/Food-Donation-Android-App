@@ -1,4 +1,4 @@
-package com.s22010213.wasteless;
+package com.s22010213.wasteless.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.s22010213.wasteless.Utils;
 import com.s22010213.wasteless.databinding.ActivityDeleteAccountBinding;
 
 public class DeleteAccountActivity extends AppCompatActivity {

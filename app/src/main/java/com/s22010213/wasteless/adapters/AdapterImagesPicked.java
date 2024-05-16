@@ -1,4 +1,4 @@
-package com.s22010213.wasteless;
+package com.s22010213.wasteless.adapters;
 
 import android.content.Context;
 import android.net.Uri;
@@ -13,7 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.s22010213.wasteless.R;
 import com.s22010213.wasteless.databinding.RowImagesPickedBinding;
+import com.s22010213.wasteless.models.ModelImagePicked;
 
 import java.util.ArrayList;
 

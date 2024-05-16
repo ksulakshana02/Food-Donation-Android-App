@@ -1,4 +1,4 @@
-package com.s22010213.wasteless;
+package com.s22010213.wasteless.models;
 
 import android.net.Uri;
 

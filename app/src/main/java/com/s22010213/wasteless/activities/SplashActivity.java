@@ -1,10 +1,12 @@
-package com.s22010213.wasteless;
+package com.s22010213.wasteless.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.s22010213.wasteless.R;
 
 public class SplashActivity extends AppCompatActivity {
 
