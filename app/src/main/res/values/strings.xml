@@ -2,4 +2,7 @@
     <string name="app_name">wasteless</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="do_not_have_an_account">Don\'t have an account? <b>Register</b></string>
+    <string name="already_have_an_account">Already have an account? <b>Login</b></string>
+    <string name="google_map_key">AIzaSyCl8PfRc7Vlt3IumzIZ_LP1GVDCgUYPnwk</string>
 </resources>

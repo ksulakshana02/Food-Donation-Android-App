@@ -10,6 +10,8 @@ import java.util.Locale;
 
 public class Utils {
 
+    public static final String[] foodType = {"Veg", "Non-Veg", "Both"};
+
     public static void toast(Context context, String message){
         Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
     }

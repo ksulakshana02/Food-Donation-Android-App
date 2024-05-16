@@ -28,6 +28,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.util.Util;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,10 +36,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.s22010213.wasteless.databinding.ActivityProfileEditBinding;
+import com.s22010213.wasteless.fragment.HomeFragment;
+import com.s22010213.wasteless.fragment.ProfileFragment;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class ProfileEditActivity extends AppCompatActivity {
@@ -78,6 +83,13 @@ public class ProfileEditActivity extends AppCompatActivity {
                 validateData();
             }
         });
+
+        binding.deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveDeleteActivity();
+            }
+        });
     }
 
     private String name = "";
@@ -107,22 +119,84 @@ public class ProfileEditActivity extends AppCompatActivity {
 
         StorageReference ref = FirebaseStorage.getInstance().getReference().child(filePathAndName);
         ref.putFile(imageUri)
+                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                        double progress = (100.0 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
+                        Log.d(TAG, "onProgress: progress: "+ progress);
+                        progressDialog.setMessage("Uploading profile image. Progress: "+ (int)progress+"%");
+                    }
+                })
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.d(TAG,"onSuccess: Uploaded");
+
+                        Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+
+                        while (!uriTask.isSuccessful());
+                        String uploadedImageUrl = uriTask.getResult().toString();
+
+                        if (uriTask.isSuccessful()){
+                            updateProfileDb(uploadedImageUrl);
+                        }
 
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
+                        Log.e(TAG,"onFailure: "+ e);
+                        progressDialog.dismiss();
+                        Utils.toast(ProfileEditActivity.this,"Failed to upload profile image due to "+ e.getMessage());
                     }
                 });
     }
 
     private void updateProfileDb(String imageUrl){
 
+        progressDialog.setMessage("Updating user info...");
+        progressDialog.show();
+
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("name", ""+ name);
+        hashMap.put("email", ""+ email);
+        hashMap.put("phoneNumber", ""+ phone);
+        hashMap.put("password", ""+ password);
+
+        if (imageUrl != null){
+            hashMap.put("profileImageUrl",""+ imageUrl);
+        }
+
+        reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference.child(firebaseAuth.getUid())
+                .updateChildren(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG,"onSuccess: Info updated");
+                        progressDialog.dismiss();
+                        Utils.toast(ProfileEditActivity.this, "profile updated...");
+                        moveHomeActivity();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG,"onFailure: ",e);
+                        progressDialog.dismiss();
+                        Utils.toast(ProfileEditActivity.this, "Failed to update info due to "+ e.getMessage());
+                    }
+                });
+
+    }
+
+    private void moveHomeActivity(){
+        startActivity(new Intent(this, ProfileFragment.class));
+    }
+
+    private void moveDeleteActivity(){
+        startActivity(new Intent(this, DeleteAccountActivity.class));
     }
 
     private void loadMyInfo(){
