@@ -4,5 +4,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="do_not_have_an_account">Don\'t have an account? <b>Register</b></string>
     <string name="already_have_an_account">Already have an account? <b>Login</b></string>
+    <string name="request_notice"><b>Remember:</b> There is no delivery on Wasteless. If you request this, you commit to picking up the item.</string>
     <string name="google_map_key">AIzaSyCl8PfRc7Vlt3IumzIZ_LP1GVDCgUYPnwk</string>
 </resources>

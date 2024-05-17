@@ -1,6 +1,7 @@
 package com.s22010213.wasteless.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.s22010213.wasteless.FilterAd;
 import com.s22010213.wasteless.R;
 import com.s22010213.wasteless.Utils;
+import com.s22010213.wasteless.activities.AdDetailsActivity;
 import com.s22010213.wasteless.databinding.RowAdBinding;
 import com.s22010213.wasteless.models.ModelAd;
 
@@ -69,6 +71,15 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.HolderAd> {
         holder.quantity.setText(quantity + " Available");
         holder.condition.setText(foodType);
         holder.date.setText(formattedDate);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, AdDetailsActivity.class);
+                intent.putExtra("adId", modelAd.getId());
+                context.startActivity(intent);
+            }
+        });
     }
 
     private void loadFirstImage(ModelAd modelAd, HolderAd holder){

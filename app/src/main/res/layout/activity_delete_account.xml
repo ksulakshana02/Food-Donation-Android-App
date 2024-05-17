@@ -60,8 +60,8 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/deleteConfirmBtn"
-        android:layout_width="330dp"
-        android:layout_height="50dp"
+        android:layout_width="320dp"
+        android:layout_height="45dp"
         android:background="@drawable/round_back_primary_15"
         android:fontFamily="@font/inter_semibold"
         android:text="Confirm Delete"

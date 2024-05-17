@@ -221,7 +221,7 @@ public class ProfileEditActivity extends AppCompatActivity {
                         try {
                             Glide.with(ProfileEditActivity.this)
                                     .load(imageUrl)
-                                    .placeholder(R.drawable.man)
+                                    .placeholder(R.drawable.ic_profile)
                                     .into(binding.editProfilePhoto);
 
                         }catch (Exception e){

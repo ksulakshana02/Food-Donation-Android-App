@@ -104,7 +104,7 @@ public class ProfileFragment extends Fragment {
                         try {
                             Glide.with(mContext)
                                     .load(imageUrl)
-                                    .placeholder(R.drawable.man)
+                                    .placeholder(R.drawable.ic_profile)
                                     .into(binding.profilePhoto);
 
                         }catch (Exception e){

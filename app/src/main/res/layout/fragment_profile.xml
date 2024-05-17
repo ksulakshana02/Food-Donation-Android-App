@@ -24,14 +24,14 @@
 
     <TextView
         android:id="@+id/profileUserName"
-        android:layout_width="97dp"
-        android:layout_height="82dp"
+        android:layout_width="181dp"
+        android:layout_height="76dp"
         android:fontFamily="@font/inter_semibold"
         android:text="User Name"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintHorizontal_bias="0.173"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.18" />
@@ -58,7 +58,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0"
             app:shapeAppearanceOverlay="@style/ImageStyle_Circle_Round"
-            tools:src="@drawable/man" />
+            tools:src="@drawable/ic_profile" />
 
     </RelativeLayout>
 

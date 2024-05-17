@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.AdDetailsActivity">
+
+    <RelativeLayout
+        android:id="@+id/toolbarRl"
+        android:layout_width="match_parent"
+        android:layout_height="55dp">
+
+        <ImageButton
+            android:id="@+id/toolbarBackBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back"
+            android:background="@android:color/transparent"
+            android:layout_centerVertical="true"
+            android:padding="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/inter"
+            android:text="Food Details"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/toolbarDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete"
+            android:layout_toStartOf="@id/toolbarEdit"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:padding="10dp"/>
+
+        <ImageButton
+            android:id="@+id/toolbarEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_edit"
+            android:background="@android:color/transparent"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:padding="10dp"/>
+
+    </RelativeLayout>
+    
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbarRl"
+        android:layout_above="@id/optionsLl">
+        
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+            
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/imageSliderVp"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
+            
+            <TextView
+                android:id="@+id/quantityTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imageSliderVp"
+                android:text="4"
+                style="@style/TextAppearance.MaterialComponents.Body2"/>
+
+            <TextView
+                android:id="@+id/foodTypeTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imageSliderVp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:textSize="12dp"
+                android:text="Non-Veg"
+                style="@style/TextAppearance.MaterialComponents.Overline"/>
+
+            <TextView
+                android:id="@+id/dateTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:text="dd/MM/yyyy"
+                android:layout_below="@id/imageSliderVp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="4dp"/>
+
+            <TextView
+                android:id="@+id/titleTv"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/quantityTv"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/inter_medium"
+                android:text="Title"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/descriptionTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/titleTv"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/inter_light"
+                tools:text="@tools:sample/lorem[20]" />
+
+            <TextView
+                android:id="@+id/addressTv"
+                style="@style/TextAppearance.MaterialComponents.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/descriptionTv"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/inter_light"
+                android:textSize="12sp"
+                tools:text="@tools:sample/lorem[5]" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/donateProfileCv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:layout_below="@id/addressTv"
+                app:cardCornerRadius="10dp"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="10dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/profileIv"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        app:shapeAppearanceOverlay="@style/ImageStyle_Circle_Round"
+                        android:layout_marginEnd="10dp"
+                        android:background="#ffffff"
+                        android:src="@drawable/ic_profile"/>
+
+                    <TextView
+                        android:id="@+id/donorNameTv"
+                        style="@style/TextAppearance.MaterialComponents.Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Full Name"
+                        android:layout_toEndOf="@id/profileIv"/>
+
+                    <TextView
+                        android:id="@+id/memberSinceLabelTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/TextAppearance.MaterialComponents.Caption"
+                        android:layout_toEndOf="@id/profileIv"
+                        android:layout_below="@id/donorNameTv"
+                        android:text="Member Since "/>
+
+                    <TextView
+                        android:id="@+id/memberSinceTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/TextAppearance.MaterialComponents.Caption"
+                        android:text="dd/MM/yyyy"
+                        android:layout_toEndOf="@id/memberSinceLabelTv"
+                        android:layout_below="@id/donorNameTv"/>
+                    
+                    <ImageView
+                        android:id="@+id/nextIv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_next"/>
+                    
+                </RelativeLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+<!--            <com.google.android.gms.maps.MapView-->
+<!--                android:id="@+id/mapView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="200dp"-->
+<!--                android:layout_below="@id/donateProfileCv"/>-->
+
+
+            <TextView
+                android:id="@+id/requestNoticeTv"
+                style="@style/TextAppearance.MaterialComponents.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/donateProfileCv"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/inter_light"
+                android:text="@string/request_notice"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+        
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/optionsLl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:padding="2dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/chatBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="1"
+            android:minHeight="50dp"
+            android:text="Chat"
+            android:textAllCaps="true"
+            android:textSize="12sp"
+            app:cornerRadius="20dp"
+            android:backgroundTint="@color/blue"
+            app:icon="@drawable/ic_chat"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/callBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="1"
+            android:minHeight="50dp"
+            android:text="call"
+            android:textAllCaps="true"
+            android:textSize="12sp"
+            app:cornerRadius="20dp"
+            android:backgroundTint="@color/blue"
+            app:icon="@drawable/ic_call"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/mapBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="1"
+            android:minHeight="50dp"
+            android:text="map"
+            android:textAllCaps="true"
+            android:textSize="12sp"
+            app:cornerRadius="20dp"
+            android:backgroundTint="@color/blue"
+            app:icon="@drawable/ic_location"/>
+
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
