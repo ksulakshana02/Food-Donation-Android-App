@@ -64,6 +64,8 @@ public class OtpVerificationActivity extends AppCompatActivity {
         phoneNumber = getIntent().getStringExtra("mobile");
         verificationId = getIntent().getStringExtra("verificationId");
 
+        progressBar.setVisibility(View.GONE);
+
         if (phoneNumber != null){
             PhoneAuthProvider.getInstance().verifyPhoneNumber(
                     phoneNumber,

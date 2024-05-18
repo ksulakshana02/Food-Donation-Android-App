@@ -210,7 +210,7 @@ public class ProfileEditActivity extends AppCompatActivity {
                         String email = ""+ snapshot.child("email").getValue();
                         String phone = ""+ snapshot.child("phoneNumber").getValue();
                         String password = ""+ snapshot.child("password").getValue();
-                        String imageUrl = ""+ snapshot.child("profileImageUrl");
+                        String imageUrl = ""+ snapshot.child("profileImageUrl").getValue();
 
                         binding.editUserName.setText(name);
                         binding.editEmail.setText(email);

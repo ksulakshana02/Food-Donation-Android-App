@@ -37,7 +37,7 @@
             android:layout_height="match_parent"
             android:src="@drawable/ic_profile"
             android:scaleType="centerCrop"
-            app:shapeAppearanceOverlay="@style/ImageStyle_Circle"/>
+            app:shapeAppearanceOverlay="@style/ImageStyle_Circle_Round"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/imagePickerFab"
@@ -53,7 +53,7 @@
             android:layout_marginBottom="-1dp"
             android:contentDescription="TODO"
             android:src="@drawable/editing"
-            app:backgroundTint="#00FFFFFF"
+            app:backgroundTint="#D5FFFFFF"
             app:fabSize="mini" />
 
     </RelativeLayout>

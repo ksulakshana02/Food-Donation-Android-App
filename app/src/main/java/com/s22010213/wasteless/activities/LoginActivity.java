@@ -44,10 +44,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                //get data
                 String email = loginEmail.getText().toString().trim();
                 String password = loginPassword.getText().toString().trim();
 
-
+                //check data validate
                 if (TextUtils.isEmpty(email)){
                     loginEmail.setError("Email is Required!");
                     return;
@@ -78,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        //handle noAccount btn
         registerRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        //handle forgotPassword btn
         forgotPasswordRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,66 +97,5 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
-//    public boolean validEmail(){
-//        String val = loginEmail.getText().toString();
-//        if(val.isEmpty()){
-//            loginEmail.setError("Email can not be empty");
-//            return false;
-//        }else {
-//            loginEmail.setError(null);
-//            return true;
-//        }
-//
-//    }
-
-//    public boolean validPassword(){
-//        String val = loginPassword.getText().toString();
-//        if(val.isEmpty()){
-//            loginPassword.setError("Password can not be empty");
-//            return false;
-//        }else {
-//            loginPassword.setError(null);
-//            return true;
-//        }
-//
-//    }
-
-//    public void checkUser(){
-//        String userEmail = loginEmail.getText().toString().trim();
-//        String userPassword = loginPassword.getText().toString().trim();
-//
-//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
-//        Query checkUserDatabase = reference.orderByChild("email").equalTo(userEmail);
-//
-//        checkUserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//
-//                if (snapshot.exists()){
-//                    loginEmail.setError(null);
-//                    String passwordFromDB = snapshot.child(userEmail).child(userPassword).getValue(String.class);
-//
-//                    if (!Objects.equals(passwordFromDB, userPassword)){
-//                        loginEmail.setError(null);
-//                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-//                        startActivity(intent);
-//                    }else {
-//                        loginPassword.setError("Invalid Credentials");
-//                        loginPassword.requestFocus();
-//                    }
-//                }else {
-//                    loginEmail.setError("User does not exist");
-//                    loginEmail.requestFocus();
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//    }
-
 
 }

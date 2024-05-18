@@ -31,13 +31,18 @@ public class HomeActivity extends AppCompatActivity {
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //firebase auth for auth related task
         firebaseAuth = FirebaseAuth.getInstance();
+
+        //check if user is logged in or not
         if (firebaseAuth.getCurrentUser() == null) {
             startActivity((new Intent(this, GetStartActivity.class)));
         }
 
+        //by default show home fragment
         showHomeFragment();
 
+        //handle bottom navigation
         binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -76,6 +81,10 @@ public class HomeActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(binding.container.getId(),fragment,"DonationFragment");
         fragmentTransaction.commit();
+
+//        Intent intent = new Intent(HomeActivity.this, DonationFragment.class);
+//        intent.putExtra("isEditMode", false);
+//        startActivity(intent);
     }
 
     private void showMapFragment(){

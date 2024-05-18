@@ -5,5 +5,7 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.Wasteless" parent="Base.Theme.Wasteless" />
+    <style name="Theme.Wasteless" parent="Base.Theme.Wasteless" >
+        <item name="colorPrimary">#067881</item>
+    </style>
 </resources>

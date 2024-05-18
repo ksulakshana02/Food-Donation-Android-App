@@ -37,6 +37,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.forgot_progressBar);
         firebaseAuth = FirebaseAuth.getInstance();
 
+        progressBar.setVisibility(View.GONE);
+
         sendCodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,7 +51,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 }
 
                 progressBar.setVisibility(View.VISIBLE);
-                sendCodeBtn.setVisibility(View.INVISIBLE);
+                sendCodeBtn.setVisibility(View.GONE);
 
 
 
@@ -124,10 +126,6 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 //                            }
 //                        }
 //                );
-
-
-
-
             }
         });
     }

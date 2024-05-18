@@ -2,15 +2,15 @@ package com.s22010213.wasteless.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -26,12 +26,12 @@ import com.s22010213.wasteless.R;
 import com.s22010213.wasteless.Utils;
 import com.s22010213.wasteless.adapters.AdapterImageSlider;
 import com.s22010213.wasteless.databinding.ActivityAdDetailsBinding;
+import com.s22010213.wasteless.fragment.DonationFragment;
 import com.s22010213.wasteless.models.ModelAd;
 import com.s22010213.wasteless.models.ModelImageSlider;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 public class AdDetailsActivity extends AppCompatActivity {
 
@@ -46,7 +46,7 @@ public class AdDetailsActivity extends AppCompatActivity {
     private double adLongitude = 0;
     //load donor info , chat with donate, and call
     private String donorUid = null;
-    private String donarPhone = "";
+    private String donorPhone = "";
 
     //list of ad's images to show in slider
     private ArrayList<ModelImageSlider> imageSliderArrayList;
@@ -106,7 +106,7 @@ public class AdDetailsActivity extends AppCompatActivity {
         binding.toolbarEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                editOptions();
             }
         });
 
@@ -128,7 +128,7 @@ public class AdDetailsActivity extends AppCompatActivity {
         binding.callBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.callIntent(AdDetailsActivity.this, donarPhone);
+                Utils.callIntent(AdDetailsActivity.this, donorPhone);
             }
         });
 
@@ -137,6 +137,38 @@ public class AdDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Utils.mapIntent(AdDetailsActivity.this,adLatitude,adLongitude);
+            }
+        });
+    }
+
+    private void editOptions(){
+        Log.d(TAG,"editOption: ");
+        //init popup menu
+        PopupMenu popupMenu = new PopupMenu(this,binding.toolbarEdit);
+        //add menu item to popupMenu with params
+        popupMenu.getMenu().add(Menu.NONE,0,0,"Edit");
+        popupMenu.getMenu().add(Menu.NONE,1,1,"Mark as Completed");
+        //popupMenu show
+        popupMenu.show();
+
+        //handle popup menu item click
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int itemId = item.getItemId();
+
+                if (itemId == 0){
+                    //edit clicked
+                    Intent intent = new Intent(AdDetailsActivity.this, DonationFragment.class);
+                    intent.putExtra("isEditMode", true);
+                    intent.putExtra("adId", adId);
+                    startActivity(intent);
+
+                }else if (itemId == 1){
+                    //mark as completed
+                    showMarkAsCompleteDialog();
+                }
+                return true;
             }
         });
     }
@@ -269,6 +301,7 @@ public class AdDetailsActivity extends AppCompatActivity {
                         //set data to ui
                         binding.donorNameTv.setText(name);
                         binding.memberSinceTv.setText(formattedDate);
+                        donorPhone = phoneNumber;
 
                         try {
                             Glide.with(AdDetailsActivity.this)
@@ -333,7 +366,7 @@ public class AdDetailsActivity extends AppCompatActivity {
                         Log.d(TAG,"onSuccess: Deleted");
                         Utils.toast(AdDetailsActivity.this, "Deleted");
                         //finish activity and go back
-                        finishAffinity();
+                        finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

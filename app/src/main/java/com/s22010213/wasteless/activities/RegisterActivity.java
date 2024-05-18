@@ -35,7 +35,6 @@ public class RegisterActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     ProgressDialog progressDialog;
     DatabaseReference reference;
-//    GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +60,6 @@ public class RegisterActivity extends AppCompatActivity {
         progressDialog.setTitle("Please wait...");
         progressDialog.setCanceledOnTouchOutside(false);
 
-//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestIdToken(getString(R.string.default_web_client_id))
-//                        .requestEmail()
-//                                .build();
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,12 +107,6 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-
-
-//                Toast.makeText(RegisterActivity.this,"You have signup successfully!",Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-//                startActivity(intent);
 
             }
         });

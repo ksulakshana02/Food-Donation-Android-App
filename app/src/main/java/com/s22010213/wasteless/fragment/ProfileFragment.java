@@ -97,13 +97,13 @@ public class ProfileFragment extends Fragment {
                         String email = "" + snapshot.child("email").getValue();
                         String name = ""+ snapshot.child("name").getValue();
                         String phone = ""+ snapshot.child("phoneNumber");
-                        String imageUrl = ""+ snapshot.child("profileImageUrl");
+                        String profileImageUrl = "" + snapshot.child("profileImageUrl").getValue();
 
                         binding.profileUserName.setText(name);
 
                         try {
                             Glide.with(mContext)
-                                    .load(imageUrl)
+                                    .load(profileImageUrl)
                                     .placeholder(R.drawable.ic_profile)
                                     .into(binding.profilePhoto);
 

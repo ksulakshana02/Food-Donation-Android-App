@@ -32,8 +32,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -59,6 +62,8 @@ public class DonationFragment extends Fragment {
     private ArrayList<ModelImagePicked> imagePickedArrayList;
     private AdapterImagesPicked adapterImagesPicked;
     private static final String TAG = "DONATION_TAG";
+    private boolean isEditMode = false;
+    private String adIdForEditing = "";
 
     @Override
     public void onAttach(@NonNull Context context){
@@ -87,10 +92,29 @@ public class DonationFragment extends Fragment {
         progressDialog.setTitle("Please wait...");
         progressDialog.setCanceledOnTouchOutside(false);
 
-
+        //setup and set the condition adapter to the condition input filed
         ArrayAdapter<String> adapterFoodType = new ArrayAdapter<>(mContext,R.layout.row_foodtype_act, Utils.foodType);
         binding.foodTypeEdit.setAdapter(adapterFoodType);
 
+        Intent intent = getActivity().getIntent();
+        isEditMode = intent.getBooleanExtra("isEditMode", false);
+        Log.d(TAG,"onCreate: isEditMode: "+ isEditMode);
+
+        if (isEditMode){
+            //Edit ad model
+            adIdForEditing = intent.getStringExtra("adId");
+            //function call to load ad details by using ad id
+            loadAdDetails();
+
+            //change toolbar title and submit button
+            binding.toolbarTitle.setText("Update Donation");
+            binding.postBtn.setText("Updated Ad");
+        }else {
+            binding.toolbarTitle.setText("Donation");
+            binding.postBtn.setText("Post");
+        }
+
+        //init imagePickedArrayList
         imagePickedArrayList = new ArrayList<>();
         loadImages();
 //        binding.toolbarBack.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +124,7 @@ public class DonationFragment extends Fragment {
 //            }
 //        });
 
+        //handle toolbarAddImageBtn click
         binding.toolbarCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,7 +179,7 @@ public class DonationFragment extends Fragment {
 
     private void loadImages(){
         Log.d(TAG, "LoadImages");
-        adapterImagesPicked = new AdapterImagesPicked(getContext(),imagePickedArrayList);
+        adapterImagesPicked = new AdapterImagesPicked(getContext(),imagePickedArrayList,adIdForEditing);
         binding.images.setAdapter(adapterImagesPicked);
     }
 
@@ -355,13 +380,19 @@ public class DonationFragment extends Fragment {
         } else if (imagePickedArrayList.isEmpty()) {
             Utils.toast(getActivity(),"Pick at least one image");
         } else {
-            postAd();
+            //all data is validated
+            if (isEditMode){
+                updateAd();
+            }else {
+                postAd();
+            }
+
         }
     }
 
     private void postAd(){
         Log.d(TAG, "postAd: ");
-
+        //show progress
         progressDialog.setMessage("Publishing Ad");
         progressDialog.show();
 
@@ -369,6 +400,7 @@ public class DonationFragment extends Fragment {
         DatabaseReference refAds = FirebaseDatabase.getInstance().getReference("Ads");
         String keyId = refAds.push().getKey();
 
+        //setup data to add in firebase database
         HashMap<String,Object> hashMap = new HashMap<>();
         hashMap.put("id", ""+ keyId);
         hashMap.put("uid", ""+ firebaseAuth.getUid());
@@ -403,60 +435,163 @@ public class DonationFragment extends Fragment {
 
     }
 
+    private void updateAd(){
+
+        progressDialog.setMessage("Updating Ad...");
+        progressDialog.show();
+
+        //setup data to add in firebase database
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("title", ""+ title);
+        hashMap.put("description", ""+ description);
+        hashMap.put("quantity", ""+ quantity);
+        hashMap.put("cooked_time", ""+ cookedTime);
+        hashMap.put("best_time", ""+ bestTime);
+        hashMap.put("food_type", ""+ foodType);
+        hashMap.put("address", ""+ address);
+        hashMap.put("latitude", latitude);
+        hashMap.put("longitude", longitude);
+
+        //database path to update ad
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Ads");
+        ref.child(adIdForEditing)
+                .updateChildren(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        //ad data update success
+                        progressDialog.dismiss();
+                        //start uploading images
+                        uploadImageStorage(adIdForEditing);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // ad data update failed
+                        Utils.toast(mContext,"Failed to update Ad due to "+ e.getMessage());
+                    }
+                });
+
+    }
+
     private void uploadImageStorage(String adId){
         Log.d(TAG, "uploadImageStorage: ");
-
+        //there are multiple images in imagePickedArrayList
         for (int i=0; i< imagePickedArrayList.size(); i++){
+            //get model from the current position
             ModelImagePicked modelImagePicked = imagePickedArrayList.get(i);
 
-            String imageName = modelImagePicked.getId();
-            String filePathAndName = "Ads/"+ imageName;
+            //upload image only if picked from gallery
+            if (!modelImagePicked.getFromInternet()){
+                //for name of the image in firebase
+                String imageName = modelImagePicked.getId();
+                //path and name of the image in firebase storage
+                String filePathAndName = "Ads/"+ imageName;
 
-            int imageIndexForProgress = i+1;
+                int imageIndexForProgress = i+1;
 
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference(filePathAndName);
+                //storage reference with filePathAndName
+                StorageReference storageReference = FirebaseStorage.getInstance().getReference(filePathAndName);
 
 
-            storageReference.putFile(modelImagePicked.getImageUri())
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                            double progress = (100.0 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
-                            String message = "Uploading " + imageIndexForProgress+ " of "+ imagePickedArrayList.size() + " images...\nProgress " + (int) progress + "%";
-                            Log.d(TAG,"onProgress: message: "+ message);
-                            progressDialog.setMessage(message);
-                            progressDialog.show();
-                        }
-                    })
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Log.d(TAG,"onSuccess: ");
-                            Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                            while (!uriTask.isSuccessful());
-                            Uri uploadedImageUrl = uriTask.getResult();
+                storageReference.putFile(modelImagePicked.getImageUri())
+                        .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                                double progress = (100.0 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
+                                String message = "Uploading " + imageIndexForProgress+ " of "+ imagePickedArrayList.size() + " images...\nProgress " + (int) progress + "%";
+                                Log.d(TAG,"onProgress: message: "+ message);
+                                progressDialog.setMessage(message);
+                                progressDialog.show();
+                            }
+                        })
+                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                Log.d(TAG,"onSuccess: ");
+                                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                                while (!uriTask.isSuccessful());
+                                Uri uploadedImageUrl = uriTask.getResult();
 
-                            if (uriTask.isSuccessful()){
-                                HashMap<String, Object> hashMap = new HashMap<>();
-                                hashMap.put("id", ""+ modelImagePicked.getId());
-                                hashMap.put("imageUrl", ""+ uploadedImageUrl);
+                                if (uriTask.isSuccessful()){
+                                    HashMap<String, Object> hashMap = new HashMap<>();
+                                    hashMap.put("id", ""+ modelImagePicked.getId());
+                                    hashMap.put("imageUrl", ""+ uploadedImageUrl);
 
-                                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Ads");
-                                ref.child(adId).child("Images")
-                                        .child(imageName)
-                                        .updateChildren(hashMap);
+                                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Ads");
+                                    ref.child(adId).child("Images")
+                                            .child(imageName)
+                                            .updateChildren(hashMap);
+                                }
+
+                                progressDialog.dismiss();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.e(TAG, "onFailure: ",e);
+                                progressDialog.dismiss();
+                            }
+                        });
+            }
+        }
+    }
+
+    private void loadAdDetails(){
+        Log.d(TAG,"loadAdDetails: ");
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Ads");
+        ref.child(adIdForEditing)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String title = ""+ snapshot.child("title").getValue();
+                        String description = ""+ snapshot.child("description").getValue();
+                        String quantity = ""+ snapshot.child("quantity").getValue();
+                        String bestTime = ""+ snapshot.child("best_time").getValue();
+                        String cookedTime = ""+ snapshot.child("best_time").getValue();
+                        String foodType = ""+ snapshot.child("food_type").getValue();
+                        latitude = (Double) snapshot.child("latitude").getValue();
+                        longitude = (Double) snapshot.child("longitude").getValue();
+                        String address = ""+ snapshot.child("address").getValue();
+
+                        binding.titleEdit.setText(title);
+                        binding.descriptionEdit.setText(description);
+                        binding.quantityEdit.setText(quantity);
+                        binding.cookedTimeEdit.setText(cookedTime);
+                        binding.bestTimeEdit.setText(bestTime);
+                        binding.foodTypeEdit.setText(foodType);
+                        binding.locationEdit.setText(address);
+
+                        DatabaseReference refImage = snapshot.child("Images").getRef();
+                        refImage.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                for (DataSnapshot ds: snapshot.getChildren()){
+                                    String id = ""+ ds.child("id").getValue();
+                                    String imageUrl = ""+ ds.child("imageUrl").getValue();
+
+                                    ModelImagePicked modelImagePicked = new ModelImagePicked(id,null,imageUrl,true);
+                                    imagePickedArrayList.add(modelImagePicked);
+                                }
+
+                                loadImages();
                             }
 
-                            progressDialog.dismiss();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.e(TAG, "onFailure: ",e);
-                            progressDialog.dismiss();
-                        }
-                    });
-        }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
     }
 }
