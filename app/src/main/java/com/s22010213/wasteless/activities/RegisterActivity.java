@@ -69,7 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = registerEmail.getText().toString().trim();
                 String mobile = registerMobile.getText().toString().trim();
                 String password = registerPassword.getText().toString().trim();
-
+                //check input validation
                 if (TextUtils.isEmpty(name)){
                     registerName.setError("Username is Required!");
                     return;
@@ -141,12 +141,14 @@ public class RegisterActivity extends AppCompatActivity {
         hashMap.put("uid", registerUserUid);
         hashMap.put("password", password);
 
+        //set data to firebase db
         reference = FirebaseDatabase.getInstance().getReference("Users");
         reference.child(registerUserUid)
                 .setValue(hashMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
+                        //firebase fb save success
                         progressDialog.dismiss();
 
                         startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
@@ -156,6 +158,7 @@ public class RegisterActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        //firebase database save failed
                         progressDialog.dismiss();
                         Utils.toast(RegisterActivity.this, "Failed to save info due to "+ e.getMessage());
                     }

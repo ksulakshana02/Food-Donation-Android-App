@@ -156,6 +156,7 @@ public class DonationFragment extends Fragment {
                 public void onActivityResult(ActivityResult result) {
                     Log.d(TAG,"onActivityResult: ");
 
+                    //get result of location picked from lacationPickerActivity
                     if (result.getResultCode() == Activity.RESULT_OK){
                         Intent data = result.getData();
 

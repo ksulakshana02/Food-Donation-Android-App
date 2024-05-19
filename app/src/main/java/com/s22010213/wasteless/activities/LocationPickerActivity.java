@@ -49,10 +49,10 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
     private static final int DEFAULT_ZOOM = 15;
 
     private GoogleMap mMap = null;
-
+    //current place picker
     private PlacesClient mPlaceClient;
     private FusedLocationProviderClient mFusedLocationProviderClient;
-
+    //the geographical location where the device is currently located. that is the last know location retrieved by the fused location provider
     private Location mLastKnownLocation = null;
     private Double selectedLatitude = null;
     private Double selectedLongitude = null;
@@ -66,7 +66,7 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
         setContentView(binding.getRoot());
 
         binding.doneBtn.setVisibility(View.GONE);
-
+        //obtain the supportManFragment and get notified when the map is ready to be used
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
 
@@ -82,6 +82,7 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
         Place.Field[] placesList = new Place.Field[]{Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG};
 
         autocompleteSupportFragment.setPlaceFields(Arrays.asList(placesList));
+        //listen for place selection
         autocompleteSupportFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onError(@NonNull Status status) {
@@ -90,7 +91,6 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
 
             @Override
             public void onPlaceSelected(@NonNull Place place) {
-
                 String id = place.getId();
                 String title = place.getName();
                 LatLng latLng = place.getLatLng();
@@ -185,7 +185,7 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
 
     private void addressFromLatLng(LatLng latLng){
         Log.d(TAG, "addressFromLatLng: ");
-
+        //init geocoder class to get the address details from latLang
         Geocoder geocoder = new Geocoder(this);
 
         try {
@@ -210,6 +210,7 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
         }
     }
 
+    //if map object is not null then proceed to show location on map
     private void pickCurrentPlace(){
         Log.d(TAG,"pickCurrentPlace: ");
         if (mMap == null){
@@ -280,12 +281,13 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
         return !(!gpsEnabled && !networkEnabled);
     }
 
+    //add marker on map after searching/picking location
     private void addMarker(LatLng latLng, String title, String address) {
         Log.d(TAG,"addMarker: latitude: "+ latLng.latitude);
         Log.d(TAG,"addMarker: longitude: "+ latLng.longitude);
         Log.d(TAG,"addMarker: title: "+ title);
         Log.d(TAG,"addMarker: address: "+ address);
-
+        //clear map before adding new marker
         mMap.clear();
 
         try {
