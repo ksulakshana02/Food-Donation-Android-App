@@ -17,6 +17,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
@@ -51,6 +52,7 @@ import com.s22010213.wasteless.databinding.FragmentDonationBinding;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class DonationFragment extends Fragment {
 
@@ -132,6 +134,14 @@ public class DonationFragment extends Fragment {
             }
         });
 
+        binding.toolbarBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });
+
         binding.locationEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,7 +166,7 @@ public class DonationFragment extends Fragment {
                 public void onActivityResult(ActivityResult result) {
                     Log.d(TAG,"onActivityResult: ");
 
-                    //get result of location picked from lacationPickerActivity
+                    //get result of location picked from locationPickerActivity
                     if (result.getResultCode() == Activity.RESULT_OK){
                         Intent data = result.getData();
 

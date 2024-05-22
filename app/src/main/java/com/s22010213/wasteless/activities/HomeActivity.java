@@ -2,6 +2,7 @@ package com.s22010213.wasteless.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
@@ -37,10 +38,13 @@ public class HomeActivity extends AppCompatActivity {
         //check if user is logged in or not
         if (firebaseAuth.getCurrentUser() == null) {
             startActivity((new Intent(this, GetStartActivity.class)));
+            //ensure the activity is finished so user can't come back to this screen
+            finish();
+            return;
         }
 
         //by default show home fragment
-        showHomeFragment();
+        showFragment(new HomeFragment(), "HomeFragment");
 
         //handle bottom navigation
         binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -49,16 +53,16 @@ public class HomeActivity extends AppCompatActivity {
 
                 int itemId = item.getItemId();
                 if (itemId == R.id.home){
-                    showHomeFragment();
+                    showFragment(new HomeFragment(), "HomeFragment");
                     return true;
                 } else if (itemId == R.id.donation) {
-                    showDonationFragment();
+                    showFragment(new DonationFragment(), "DonationFragment");
                     return true;
                 } else if (itemId == R.id.map) {
-                    showMapFragment();
+                    showFragment(new MapFragment(), "MapFragment");
                     return true;
                 } else if (itemId == R.id.profile) {
-                    showProfileFragment();
+                    showFragment(new ProfileFragment(),"ProfileFragment");
                     return true;
                 }else {
                     return false;
@@ -69,35 +73,13 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    private void showHomeFragment(){
-        HomeFragment fragment = new HomeFragment();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(binding.container.getId(),fragment,"HomeFragment");
-        fragmentTransaction.commit();
-    }
-
-    private void showDonationFragment(){
-        DonationFragment fragment = new DonationFragment();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(binding.container.getId(),fragment,"DonationFragment");
-        fragmentTransaction.commit();
-
-//        Intent intent = new Intent(HomeActivity.this, DonationFragment.class);
-//        intent.putExtra("isEditMode", false);
-//        startActivity(intent);
-    }
-
-    private void showMapFragment(){
-        MapFragment fragment = new MapFragment();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(binding.container.getId(),fragment,"MapFragment");
-        fragmentTransaction.commit();
-    }
-
-    private void showProfileFragment(){
-        ProfileFragment fragment = new ProfileFragment();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(binding.container.getId(),fragment,"ProfileFragment");
-        fragmentTransaction.commit();
+    private void showFragment(Fragment fragment, String tag){
+        Fragment existingFragment = getSupportFragmentManager().findFragmentByTag(tag);
+        if (existingFragment == null || !existingFragment.isVisible()){
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(binding.container.getId(),fragment,tag);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
     }
 }

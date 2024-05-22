@@ -1,11 +1,14 @@
 package com.s22010213.wasteless.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.s22010213.wasteless.R;
 import com.s22010213.wasteless.adapters.AdapterAd;
 import com.s22010213.wasteless.models.ModelAd;
 import com.s22010213.wasteless.databinding.FragmentHomeBinding;
@@ -64,6 +68,13 @@ public class HomeFragment extends Fragment {
 //        if (currentLatitude != 0.0 && currentLongitude != 0.0){
 //            bin
 //        }
+
+        binding.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), DonationFragment.class));
+            }
+        });
 
         loadAds();
     }

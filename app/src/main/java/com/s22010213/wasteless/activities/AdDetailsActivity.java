@@ -67,6 +67,11 @@ public class AdDetailsActivity extends AppCompatActivity {
 
         //get the id of the ad
         adId = getIntent().getStringExtra("adId");
+        if (adId == null){
+            Log.e(TAG,"adId is null");
+            finish();
+            return;
+        }
 
         Log.d(TAG,"onCreate: adId: "+ adId);
 
@@ -114,7 +119,9 @@ public class AdDetailsActivity extends AppCompatActivity {
         binding.donateProfileCv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(AdDetailsActivity.this, AdDonorProfileActivity.class);
+                intent.putExtra("donorUid",donorUid);
+                startActivity(intent);
             }
         });
 
@@ -250,6 +257,7 @@ public class AdDetailsActivity extends AppCompatActivity {
                                 binding.chatBtn.setVisibility(View.GONE);
                                 binding.callBtn.setVisibility(View.GONE);
                                 binding.mapBtn.setVisibility(View.GONE);
+                                binding.donateProfileCv.setVisibility(View.GONE);
 
                             }else {
                                 //ad is not created by currently signed in user so
@@ -258,6 +266,7 @@ public class AdDetailsActivity extends AppCompatActivity {
                                 binding.chatBtn.setVisibility(View.VISIBLE);
                                 binding.callBtn.setVisibility(View.VISIBLE);
                                 binding.mapBtn.setVisibility(View.VISIBLE);
+                                binding.donateProfileCv.setVisibility(View.VISIBLE);
                             }
 
                             //set data to ui

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.AdDonorProfileActivity">
+
+    <RelativeLayout
+        android:id="@+id/toolBarRl"
+        android:layout_width="match_parent"
+        android:layout_height="55dp">
+
+        <ImageButton
+            android:id="@+id/toolBarBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back"
+            android:background="@android:color/transparent"
+            android:layout_centerVertical="true"
+            android:padding="10dp"/>
+
+        <TextView
+            android:id="@+id/toolBarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/inter"
+            android:text="Donor Profile"
+            android:textSize="20sp"
+            style="@style/TextAppearance.MaterialComponents.Body1"/>
+
+    </RelativeLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/profileCv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolBarRl"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="10dp"
+        app:contentPadding="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/donorProfileIv"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@color/quantum_grey"
+                android:src="@drawable/ic_profile"
+                app:shapeAppearanceOverlay="@style/ImageStyle_Circle_Round"
+                android:layout_marginEnd="10dp"/>
+
+            <TextView
+                android:id="@+id/donorNameTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.MaterialComponents.Body1"
+                tools:text="@tools:sample/full_names"
+                android:layout_toEndOf="@id/donorProfileIv"/>
+
+            <TextView
+                android:id="@+id/donorMemberSinceLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/donorProfileIv"
+                android:layout_below="@id/donorNameTv"
+                android:text="Member Since:"
+                style="@style/TextAppearance.MaterialComponents.Caption"/>
+
+            <TextView
+                android:id="@+id/donorMemberSinceTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/donorMemberSinceLabel"
+                android:layout_below="@id/donorNameTv"
+                tools:text="@tools:sample/date/ddmmyy"
+                style="@style/TextAppearance.MaterialComponents.Caption"/>
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/publishedAddCountLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profileCv"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:text="Published Ads: "
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"/>
+
+    <TextView
+        android:id="@+id/publishedAdsCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profileCv"
+        android:text="00"
+        android:layout_toEndOf="@id/publishedAddCountLabel"
+        android:layout_marginTop="5dp"
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/adsRv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/publishedAddCountLabel"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/row_ad"/>
+
+
+</RelativeLayout>
