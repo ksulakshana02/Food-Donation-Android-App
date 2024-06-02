@@ -27,11 +27,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.s22010213.wasteless.R;
+import com.s22010213.wasteless.databinding.ActivityOtpVerificationBinding;
 
 import java.util.concurrent.TimeUnit;
 
 public class OtpVerificationActivity extends AppCompatActivity {
 
+    private ActivityOtpVerificationBinding binding;
     private EditText otp1, otp2, otp3, otp4, otp5, otp6;
     private Button verifyBtn;
     private TextView resendText;
@@ -92,6 +94,13 @@ public class OtpVerificationActivity extends AppCompatActivity {
         }
 
         setupOTPInputs();
+
+        binding.toolbarBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         verifyBtn.setOnClickListener(new View.OnClickListener() {
             @Override

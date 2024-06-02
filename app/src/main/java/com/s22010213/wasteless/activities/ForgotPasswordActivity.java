@@ -17,11 +17,13 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.s22010213.wasteless.R;
+import com.s22010213.wasteless.databinding.ActivityForgotPasswordBinding;
 
 import java.util.concurrent.TimeUnit;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
+    private ActivityForgotPasswordBinding binding;
     private Button sendCodeBtn;
     private EditText forgotPwdMobile;
     private ProgressBar progressBar;
@@ -38,6 +40,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         progressBar.setVisibility(View.GONE);
+
+        binding.toolbarBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         sendCodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override

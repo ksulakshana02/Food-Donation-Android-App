@@ -88,6 +88,13 @@ public class ProfileEditActivity extends AppCompatActivity {
                 moveDeleteActivity();
             }
         });
+
+        binding.toolbarBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private String name = "";
@@ -211,11 +218,17 @@ public class ProfileEditActivity extends AppCompatActivity {
                         String phone = ""+ snapshot.child("phoneNumber").getValue();
                         String password = ""+ snapshot.child("password").getValue();
                         String imageUrl = ""+ snapshot.child("profileImageUrl").getValue();
+                        String accType = "" + snapshot.child("userType").getValue();
 
                         binding.editUserName.setText(name);
                         binding.editEmail.setText(email);
                         binding.editPhoneNumber.setText(phone);
-                        binding.editPassword.setText(password);
+
+                        if (accType.equals("Google")){
+                            binding.editPassword.setEnabled(false);
+                        }else {
+                            binding.editPassword.setText(password);
+                        }
 
 
                         try {

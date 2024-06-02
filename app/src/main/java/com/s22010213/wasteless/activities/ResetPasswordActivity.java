@@ -15,9 +15,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.s22010213.wasteless.R;
+import com.s22010213.wasteless.databinding.ActivityResetPasswordBinding;
 
 public class ResetPasswordActivity extends AppCompatActivity {
 
+    private ActivityResetPasswordBinding binding;
     EditText newPasswordEt, confirmNewPasswordEt;
     Button resetPasswordBtn;
 
@@ -29,6 +31,13 @@ public class ResetPasswordActivity extends AppCompatActivity {
         newPasswordEt = findViewById(R.id.new_password);
         confirmNewPasswordEt = findViewById(R.id.confirm_new_password);
         resetPasswordBtn = findViewById(R.id.reset_button);
+
+        binding.toolbarBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         resetPasswordBtn.setOnClickListener(new View.OnClickListener() {
             @Override

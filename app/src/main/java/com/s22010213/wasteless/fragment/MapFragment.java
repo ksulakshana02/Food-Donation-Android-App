@@ -86,6 +86,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
         mapFragment.getMapAsync(this);
 
+        binding.toolbarBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requireActivity().getOnBackPressedDispatcher().onBackPressed();
+            }
+        });
+
     }
 
 

@@ -49,6 +49,13 @@ public class DeleteAccountActivity extends AppCompatActivity {
                 deleteAccount();
             }
         });
+
+        binding.toolbarBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void deleteAccount(){

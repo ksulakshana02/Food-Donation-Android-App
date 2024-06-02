@@ -17,9 +17,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.s22010213.wasteless.R;
+import com.s22010213.wasteless.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private ActivityLoginBinding binding;
     EditText loginEmail, loginPassword;
     Button loginButton;
     TextView registerRedirectText, forgotPasswordRedirectText;
@@ -39,6 +41,13 @@ public class LoginActivity extends AppCompatActivity {
         forgotPasswordRedirectText = findViewById(R.id.forgot_password_text);
 
         firebaseAuth = FirebaseAuth.getInstance();
+
+//        binding.toolbarBackBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onBackPressed();
+//            }
+//        });
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override

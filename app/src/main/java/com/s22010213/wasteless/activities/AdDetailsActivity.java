@@ -81,6 +81,13 @@ public class AdDetailsActivity extends AppCompatActivity {
         loadAdDetails();
         loadAdImages();
 
+        binding.toolbarBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         //handle toolbarDelete click, delete ad
         binding.toolbarDelete.setOnClickListener(new View.OnClickListener() {
             @Override

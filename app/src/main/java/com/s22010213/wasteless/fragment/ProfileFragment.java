@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -60,6 +61,14 @@ public class ProfileFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
 
         loadMyInfo();
+
+        binding.toolbarBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requireActivity().getOnBackPressedDispatcher().onBackPressed();
+            }
+        });
+
         binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,12 +89,28 @@ public class ProfileFragment extends Fragment {
                 startActivity(new Intent(mContext, MyListingsActivity.class));
             }
         });
+
+        binding.UserNearBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateToMapFragment();
+            }
+        });
+    }
+
+    private void navigateToMapFragment() {
+        Fragment mapFragment = new MapFragment();
+        FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.container, mapFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
 
     public void handleLogout(){
         firebaseAuth.signOut();
         startActivity(new Intent(getActivity(), GetStartActivity.class));
+        getActivity().finish();
     }
 
     private void loadMyInfo(){

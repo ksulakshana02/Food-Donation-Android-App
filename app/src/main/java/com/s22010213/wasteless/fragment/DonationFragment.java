@@ -42,6 +42,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.s22010213.wasteless.OnBackPressedListener;
 import com.s22010213.wasteless.adapters.AdapterImagesPicked;
 import com.s22010213.wasteless.activities.LocationPickerActivity;
 import com.s22010213.wasteless.models.ModelImagePicked;
@@ -99,7 +100,7 @@ public class DonationFragment extends Fragment {
         binding.foodTypeEdit.setAdapter(adapterFoodType);
 
         Intent intent = getActivity().getIntent();
-        isEditMode = intent.getBooleanExtra("isEditMode", false);
+        isEditMode = intent.getBooleanExtra("isEditMode",false);
         Log.d(TAG,"onCreate: isEditMode: "+ isEditMode);
 
         if (isEditMode){
@@ -119,12 +120,6 @@ public class DonationFragment extends Fragment {
         //init imagePickedArrayList
         imagePickedArrayList = new ArrayList<>();
         loadImages();
-//        binding.toolbarBack.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onBackPassed();
-//            }
-//        });
 
         //handle toolbarAddImageBtn click
         binding.toolbarCamera.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +132,7 @@ public class DonationFragment extends Fragment {
         binding.toolbarBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                requireActivity().onBackPressed();
 
             }
         });
@@ -605,4 +600,5 @@ public class DonationFragment extends Fragment {
                     }
                 });
     }
+
 }
