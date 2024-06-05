@@ -40,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         registerRedirectText = findViewById(R.id.no_account);
         forgotPasswordRedirectText = findViewById(R.id.forgot_password_text);
 
+
         firebaseAuth = FirebaseAuth.getInstance();
 
 //        binding.toolbarBackBtn.setOnClickListener(new View.OnClickListener() {

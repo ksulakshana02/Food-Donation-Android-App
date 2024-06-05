@@ -99,19 +99,23 @@ public class DonationFragment extends Fragment {
         ArrayAdapter<String> adapterFoodType = new ArrayAdapter<>(mContext,R.layout.row_foodtype_act, Utils.foodType);
         binding.foodTypeEdit.setAdapter(adapterFoodType);
 
-        Intent intent = getActivity().getIntent();
-        isEditMode = intent.getBooleanExtra("isEditMode",false);
-        Log.d(TAG,"onCreate: isEditMode: "+ isEditMode);
+        Bundle args = getArguments();
+        if (args != null){
+            isEditMode = args.getBoolean("isEditMode",false);
+            adIdForEditing = args.getString("adId");
+            Log.d(TAG,"onCreate: isEditMode: "+ isEditMode);
+        }
 
         if (isEditMode){
-            //Edit ad model
-            adIdForEditing = intent.getStringExtra("adId");
+
             //function call to load ad details by using ad id
             loadAdDetails();
 
             //change toolbar title and submit button
             binding.toolbarTitle.setText("Update Donation");
             binding.postBtn.setText("Updated Ad");
+            binding.headBar.setVisibility(View.GONE);
+
         }else {
             binding.toolbarTitle.setText("Donation");
             binding.postBtn.setText("Post");

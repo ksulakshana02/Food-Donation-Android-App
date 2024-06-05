@@ -3,6 +3,8 @@ package com.s22010213.wasteless.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -173,10 +175,23 @@ public class AdDetailsActivity extends AppCompatActivity {
 
                 if (itemId == 0){
                     //edit clicked
-                    Intent intent = new Intent(AdDetailsActivity.this, DonationFragment.class);
-                    intent.putExtra("isEditMode", true);
-                    intent.putExtra("adId", adId);
-                    startActivity(intent);
+                    DonationFragment donationFragment = new DonationFragment();
+
+                    //create a bundle to pass data
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("isEditMode", true);
+                    bundle.putString("adId", adId);
+                    donationFragment.setArguments(bundle);
+
+                    //replace the current fragment with the DonationFragment
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container, donationFragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+
+                    findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+                    findViewById(R.id.scrollview).setVisibility(View.GONE);
 
                 }else if (itemId == 1){
                     //mark as completed

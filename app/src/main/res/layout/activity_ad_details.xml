@@ -51,6 +51,7 @@
     </RelativeLayout>
     
     <ScrollView
+        android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbarRl"
@@ -209,6 +210,14 @@
         
     </ScrollView>
 
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/scrollview"
+        android:layout_above="@id/optionsLl"
+        android:visibility="gone"/>
+
     <LinearLayout
         android:id="@+id/optionsLl"
         android:layout_width="match_parent"
@@ -262,6 +271,8 @@
 
 
     </LinearLayout>
+
+
 
 
 </RelativeLayout>
