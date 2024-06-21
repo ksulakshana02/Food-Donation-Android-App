@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.s22010213.wasteless.R;
+import com.s22010213.wasteless.activities.SearchActivity;
 import com.s22010213.wasteless.adapters.AdapterAd;
 import com.s22010213.wasteless.models.ModelAd;
 import com.s22010213.wasteless.databinding.FragmentHomeBinding;
@@ -68,6 +69,10 @@ public class HomeFragment extends Fragment {
 //        if (currentLatitude != 0.0 && currentLongitude != 0.0){
 //            bin
 //        }
+
+        binding.toolbarSearch.setOnClickListener((v -> {
+            startActivity(new Intent(getActivity(), SearchActivity.class));
+        }));
 
         binding.button.setOnClickListener(new View.OnClickListener() {
             @Override

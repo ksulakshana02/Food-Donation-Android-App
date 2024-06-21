@@ -42,6 +42,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.s22010213.wasteless.DonationNotifier;
 import com.s22010213.wasteless.OnBackPressedListener;
 import com.s22010213.wasteless.adapters.AdapterImagesPicked;
 import com.s22010213.wasteless.activities.LocationPickerActivity;
@@ -67,6 +68,7 @@ public class DonationFragment extends Fragment {
     private static final String TAG = "DONATION_TAG";
     private boolean isEditMode = false;
     private String adIdForEditing = "";
+    DonationNotifier donationNotifier;
 
     @Override
     public void onAttach(@NonNull Context context){
@@ -432,6 +434,7 @@ public class DonationFragment extends Fragment {
                     public void onSuccess(Void unused) {
                         Log.d(TAG,"onSuccess: Ad Published");
                         uploadImageStorage(keyId);
+                        DonationNotifier.notifyAllUsers("New Donation", " A new Donation has been made: "+ title);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -473,6 +476,7 @@ public class DonationFragment extends Fragment {
                         progressDialog.dismiss();
                         //start uploading images
                         uploadImageStorage(adIdForEditing);
+                        DonationNotifier.notifyAllUsers("Donation Updated", "A Donation has been updated: "+ title);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

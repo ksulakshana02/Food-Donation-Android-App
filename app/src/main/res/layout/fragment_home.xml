@@ -10,42 +10,46 @@
     <RelativeLayout
         android:id="@+id/headBar"
         android:layout_width="match_parent"
-        android:layout_height="55dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="150dp"
-            android:layout_height="60dp"
+            android:layout_width="130dp"
+            android:layout_height="50dp"
             android:layout_alignParentStart="true"
             android:background="@android:color/transparent"
             android:padding="10dp"
-            android:src="@drawable/logo" />
+            android:src="@drawable/logo"
+            android:layout_centerVertical="true"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:orientation="horizontal"
-            android:layout_centerHorizontal="true">
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:layout_centerHorizontal="true">-->
 
-            <ImageButton
-                android:id="@+id/toolbarBell"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@android:color/transparent"
-                android:padding="5dp"
-                android:src="@drawable/ic_bell"
-                android:scaleType="centerCrop"/>
+<!--            <ImageButton-->
+<!--                android:id="@+id/toolbarBell"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@android:color/transparent"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:padding="10dp"-->
+<!--                android:layout_toStartOf="@id/toolbarSearch"-->
+<!--                android:src="@drawable/ic_bell" />-->
 
             <ImageButton
                 android:id="@+id/toolbarSearch"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@android:color/transparent"
-                android:padding="5dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/quantum_ic_search_grey600_24" />
-        </LinearLayout>
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
+                app:tint="@color/black"
+                android:src="@drawable/ic_search_new" />
+<!--        </LinearLayout>-->
     </RelativeLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -60,15 +64,15 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="1dp"
                 android:layout_marginEnd="8dp">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/imageView12"
-                    android:layout_width="360dp"
-                    android:layout_height="140dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="150dp"
                     android:src="@drawable/banner"
                     android:layout_centerHorizontal="true"
                     app:shapeAppearanceOverlay="@style/ImageStyle_Circle" />

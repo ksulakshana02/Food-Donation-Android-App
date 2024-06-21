@@ -128,6 +128,11 @@ public class AdapterAd extends RecyclerView.Adapter<AdapterAd.HolderAd> {
 //        return filer;
 //    }
 
+    public void searchDataList(ArrayList<ModelAd> searchList){
+        adArrayList = searchList;
+        notifyDataSetChanged();
+    }
+
     class HolderAd extends RecyclerView.ViewHolder{
 
         ShapeableImageView imageIv;

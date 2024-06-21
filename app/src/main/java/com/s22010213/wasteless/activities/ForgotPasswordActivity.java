@@ -1,31 +1,26 @@
 package com.s22010213.wasteless.activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.PhoneAuthCredential;
-import com.google.firebase.auth.PhoneAuthOptions;
-import com.google.firebase.auth.PhoneAuthProvider;
+import com.s22010213.wasteless.JavaMailSender;
 import com.s22010213.wasteless.R;
+import com.s22010213.wasteless.Utils;
 import com.s22010213.wasteless.databinding.ActivityForgotPasswordBinding;
-
-import java.util.concurrent.TimeUnit;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
     private ActivityForgotPasswordBinding binding;
     private Button sendCodeBtn;
-    private EditText forgotPwdMobile;
+    private EditText forgotPwdEmail;
     private ProgressBar progressBar;
     private FirebaseAuth firebaseAuth;
 
@@ -35,65 +30,92 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_forgot_password);
 
         sendCodeBtn = findViewById(R.id.send_code_button);
-        forgotPwdMobile = findViewById(R.id.mobile_for_forgot_password);
+        forgotPwdEmail = findViewById(R.id.email_for_forgot_password);
         progressBar = findViewById(R.id.forgot_progressBar);
         firebaseAuth = FirebaseAuth.getInstance();
 
         progressBar.setVisibility(View.GONE);
 
-        binding.toolbarBackBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+//        binding.toolbarBackBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//              onBackPressed();
+//            }
+//        });
 
         sendCodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String phone = forgotPwdMobile.getText().toString().trim();
+                String recipientEmail = forgotPwdEmail.getText().toString().trim();
 
-                if (phone.isEmpty()){
-                    Toast.makeText(ForgotPasswordActivity.this , "Enter Mobile Number", Toast.LENGTH_SHORT).show();
+                if (recipientEmail.isEmpty()){
+                    Utils.toast(ForgotPasswordActivity.this , "Enter Email");
                     return;
                 }
 
+                String otp = Utils.generateOtp();
+                Log.d("otp", otp);
+//                String otp = "123456";
                 progressBar.setVisibility(View.VISIBLE);
                 sendCodeBtn.setVisibility(View.GONE);
 
+                JavaMailSender.sendOtpEmail(recipientEmail, otp, new JavaMailSender.EmailSentCallback() {
+                    @Override
+                    public void onEmailSent() {
+                        runOnUiThread(() -> {
+                            progressBar.setVisibility(View.GONE);
+                            sendCodeBtn.setVisibility(View.VISIBLE);
+                            Intent intent = new Intent(ForgotPasswordActivity.this, OtpVerificationActivity.class);
+                            intent.putExtra("otp",otp);
+                            intent.putExtra("email",recipientEmail);
+                            startActivity(intent);
+                        });
+                    }
+
+                    @Override
+                    public void onEmailFailed(Exception e) {
+                        e.printStackTrace();
+                        runOnUiThread(()->{
+                            progressBar.setVisibility(View.GONE);
+                            sendCodeBtn.setVisibility(View.VISIBLE);
+                            Utils.toast(ForgotPasswordActivity.this,"Failed to sent OTP");
+                        });
+                    }
+                }
+            );
 
 
-                PhoneAuthOptions options =
-                        PhoneAuthOptions.newBuilder(firebaseAuth)
-                                .setPhoneNumber(phone)
-                                        .setTimeout(60L, TimeUnit.SECONDS)
-                                .setActivity(ForgotPasswordActivity.this)
-                                .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-                                    @Override
-                                    public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-                                        sendCodeBtn.setVisibility(View.VISIBLE);
-                                        progressBar.setVisibility(View.GONE);
-                                        Intent intent = new Intent(getApplicationContext(), OtpVerificationActivity.class);
-                                        intent.putExtra("mobile", forgotPwdMobile.getText().toString());
-                                        intent.putExtra("verificationId",verificationId);
-                                        startActivity(intent);
-                                    }
-                                    @Override
-                                    public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-                                        sendCodeBtn.setVisibility(View.VISIBLE);
-                                        progressBar.setVisibility(View.GONE);
-                                    }
-
-                                    @Override
-                                    public void onVerificationFailed(@NonNull FirebaseException e) {
-                                        progressBar.setVisibility(View.GONE);
-                                        sendCodeBtn.setVisibility(View.VISIBLE);
-                                        Toast.makeText(ForgotPasswordActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                })
-                                                    .build();
-                        PhoneAuthProvider.verifyPhoneNumber(options);
+//                PhoneAuthOptions options =
+//                        PhoneAuthOptions.newBuilder(firebaseAuth)
+//                                .setPhoneNumber(phone)
+//                                        .setTimeout(60L, TimeUnit.SECONDS)
+//                                .setActivity(ForgotPasswordActivity.this)
+//                                .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+//                                    @Override
+//                                    public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+//                                        sendCodeBtn.setVisibility(View.VISIBLE);
+//                                        progressBar.setVisibility(View.GONE);
+//                                        Intent intent = new Intent(getApplicationContext(), OtpVerificationActivity.class);
+//                                        intent.putExtra("mobile", forgotPwdMobile.getText().toString());
+//                                        intent.putExtra("verificationId",verificationId);
+//                                        startActivity(intent);
+//                                    }
+//                                    @Override
+//                                    public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+//                                        sendCodeBtn.setVisibility(View.VISIBLE);
+//                                        progressBar.setVisibility(View.GONE);
+//                                    }
+//
+//                                    @Override
+//                                    public void onVerificationFailed(@NonNull FirebaseException e) {
+//                                        progressBar.setVisibility(View.GONE);
+//                                        sendCodeBtn.setVisibility(View.VISIBLE);
+//                                        Toast.makeText(ForgotPasswordActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                                    }
+//                                })
+//                                                    .build();
+//                        PhoneAuthProvider.verifyPhoneNumber(options);
 
 //                firebaseAuth.sendPasswordResetEmail(phone)
 //                        .addOnCompleteListener(new OnCompleteListener<Void>() {

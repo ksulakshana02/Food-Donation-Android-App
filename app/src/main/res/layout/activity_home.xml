@@ -6,17 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".activities.HomeActivity">
 
-    <androidx.fragment.app.FragmentContainerView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/divider"
         android:id="@+id/container"
-        android:layout_above="@id/bottom_navigation" />
+        />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@id/bottom_navigation"
+        android:id="@+id/divider"/>
+
+<!--    <androidx.fragment.app.FragmentContainerView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:id="@+id/container"-->
+<!--        android:layout_above="@id/bottom_navigation" />-->
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/bottom_navigation"
         android:layout_alignParentBottom="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
         app:menu="@menu/bottom_nav_menu"
         />
 </RelativeLayout>

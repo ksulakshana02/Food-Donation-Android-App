@@ -27,6 +27,9 @@
         android:theme="@style/Theme.Wasteless"
         tools:targetApi="31">
         <activity
+            android:name=".activities.SearchActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.AdDonorProfileActivity"
             android:exported="false" />
         <activity
@@ -78,10 +81,11 @@
             android:name=".MainActivity"
             android:exported="false" />
 
-        <service android:name=".MyFirebaseMessagingService"
+        <service
+            android:name=".MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 

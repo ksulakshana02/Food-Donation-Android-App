@@ -8,4 +8,8 @@
     <style name="Theme.Wasteless" parent="Base.Theme.Wasteless" >
         <item name="colorPrimary">#067881</item>
     </style>
+
+    <style name="ShapeAppearance.M3.Comp.NavigationBar.ActiveIndicator.Shape." parent="Widget.MaterialComponents.Toolbar">
+        <item name="colorPrimary">#067881</item>
+    </style>
 </resources>

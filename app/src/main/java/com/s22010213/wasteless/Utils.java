@@ -1,18 +1,13 @@
 package com.s22010213.wasteless;
 
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.text.format.DateFormat;
 import android.widget.Toast;
 
-import androidx.core.app.NotificationCompat;
-
+import java.security.SecureRandom;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -22,8 +17,9 @@ public class Utils {
     public static final String[] foodType = {"Veg", "Non-Veg", "Both"};
     public static final String AD_STATUS_COMPLETED = "COMPLETED";
 
-    private static final String CHANNEL_ID = "default_channel";
-    private static final int NOTIFICATION_ID = 1;
+    private static  final String CHARACTERS = "0123456789";
+    private static final int OTP_LENGTH = 6;
+    private static final SecureRandom random = new SecureRandom();
 
     public static void toast(Context context, String message){
         Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
@@ -65,25 +61,12 @@ public class Utils {
         }
     }
 
-    public static void sendNotification(Context context, String messageBody) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
-
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_profile)
-                .setContentTitle("New Donation")
-                .setContentText(messageBody)
-                .setAutoCancel(true)
-                .setContentIntent(pendingIntent);
-
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Channel human readable title", NotificationManager.IMPORTANCE_DEFAULT);
-            notificationManager.createNotificationChannel(channel);
+    public static String generateOtp(){
+        StringBuilder otp = new StringBuilder(OTP_LENGTH);
+        for (int i = 0; i< OTP_LENGTH; i++){
+            otp.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
         }
-
-        notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
+        return otp.toString();
     }
+
 }

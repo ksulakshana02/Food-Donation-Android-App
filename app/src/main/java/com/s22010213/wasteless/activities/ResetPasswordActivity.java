@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -15,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.s22010213.wasteless.R;
+import com.s22010213.wasteless.Utils;
 import com.s22010213.wasteless.databinding.ActivityResetPasswordBinding;
 
 public class ResetPasswordActivity extends AppCompatActivity {
@@ -22,6 +25,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
     private ActivityResetPasswordBinding binding;
     EditText newPasswordEt, confirmNewPasswordEt;
     Button resetPasswordBtn;
+    ProgressBar progressBar;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +36,20 @@ public class ResetPasswordActivity extends AppCompatActivity {
         newPasswordEt = findViewById(R.id.new_password);
         confirmNewPasswordEt = findViewById(R.id.confirm_new_password);
         resetPasswordBtn = findViewById(R.id.reset_button);
+        progressBar = findViewById(R.id.reset_progressBar);
+        firebaseAuth = FirebaseAuth.getInstance();
 
-        binding.toolbarBackBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        String email = getIntent().getStringExtra("email");
+        Log.d("resetEmail",email);
+
+        progressBar.setVisibility(View.GONE);
+
+//        binding.toolbarBackBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onBackPressed();
+//            }
+//        });
 
         resetPasswordBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,11 +57,18 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 String newPassword = newPasswordEt.getText().toString().trim();
                 String confirmNewPassword = confirmNewPasswordEt.getText().toString().trim();
 
-                if (!validatePassword(newPassword, confirmNewPassword)){
-                    return;
+                if (validatePassword(newPassword, confirmNewPassword)){
+                    progressBar.setVisibility(View.VISIBLE);
+                    resetPasswordBtn.setVisibility(View.GONE);
+
+                    resetPassword(newPassword, email);
+//                    return;
                 }
 
-                resetPassword(newPassword);
+//                progressBar.setVisibility(View.VISIBLE);
+//                resetPasswordBtn.setVisibility(View.GONE);
+//
+//                resetPassword(newPassword, email);
             }
         });
     }
@@ -71,25 +90,31 @@ public class ResetPasswordActivity extends AppCompatActivity {
         return true;
     }
 
-    private void resetPassword(String newPassword){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null){
-            user.updatePassword(newPassword)
-                    .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()){
-                                Toast.makeText(ResetPasswordActivity.this, "Password reset successful", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(ResetPasswordActivity.this, LoginActivity.class));
-                                finish();
-                            }else {
-                                Toast.makeText(ResetPasswordActivity.this, "Password reset failed", Toast.LENGTH_SHORT).show();
-                            }
-
+    private void resetPassword(String newPassword, String email){
+        firebaseAuth.fetchSignInMethodsForEmail(email)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        FirebaseUser user = firebaseAuth.getCurrentUser();
+                        if (user != null){
+                            user.updatePassword(newPassword)
+                                    .addOnCompleteListener(updateTask -> {
+                                        resetPasswordBtn.setVisibility(View.VISIBLE);
+                                        progressBar.setVisibility(View.GONE);
+                                        if (updateTask.isSuccessful()){
+                                            Utils.toast(ResetPasswordActivity.this,"Password reset successfully");
+                                            startActivity(new Intent(ResetPasswordActivity.this, LoginActivity.class));
+                                            finish();
+                                        }else {
+                                            Utils.toast(ResetPasswordActivity.this,"Failed to reset password");
+                                        }
+                                    });
+                        }else {
+                            resetPasswordBtn.setVisibility(View.VISIBLE);
+                            progressBar.setVisibility(View.GONE);
+                            Utils.toast(ResetPasswordActivity.this,"Failed to fetch sign-in methods");
                         }
-                    });
-        } else {
-            Toast.makeText(this, "Error: User not logged in", Toast.LENGTH_SHORT).show();
-        }
+                    }
+                });
+
     }
 }

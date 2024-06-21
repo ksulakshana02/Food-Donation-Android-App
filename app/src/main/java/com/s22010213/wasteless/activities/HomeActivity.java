@@ -7,10 +7,16 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.s22010213.wasteless.R;
 import com.s22010213.wasteless.activities.GetStartActivity;
 import com.s22010213.wasteless.databinding.ActivityHomeBinding;
@@ -19,10 +25,13 @@ import com.s22010213.wasteless.fragment.HomeFragment;
 import com.s22010213.wasteless.fragment.MapFragment;
 import com.s22010213.wasteless.fragment.ProfileFragment;
 
+import java.util.HashMap;
+
 public class HomeActivity extends AppCompatActivity {
 
     private ActivityHomeBinding binding;
     private FirebaseAuth firebaseAuth;
+    private String uId = "";
 
 
     @Override
@@ -32,8 +41,11 @@ public class HomeActivity extends AppCompatActivity {
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        FirebaseApp.initializeApp(this);
+
         //firebase auth for auth related task
         firebaseAuth = FirebaseAuth.getInstance();
+        uId = firebaseAuth.getUid();
 
         //check if user is logged in or not
         if (firebaseAuth.getCurrentUser() == null) {
@@ -42,6 +54,11 @@ public class HomeActivity extends AppCompatActivity {
             finish();
             return;
         }
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        getFCMToken();
 
         //by default show home fragment
         showFragment(new HomeFragment(), "HomeFragment");
@@ -82,4 +99,23 @@ public class HomeActivity extends AppCompatActivity {
             fragmentTransaction.commit();
         }
     }
+
+    void getFCMToken(){
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                String token = task.getResult();
+                Log.i("My token", token);
+
+                HashMap<String,Object> hashMap = new HashMap<>();
+                hashMap.put("fcmToken",token);
+
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+                ref.child(uId).updateChildren(hashMap).addOnSuccessListener(unused -> {
+                    Log.d("My token","Token updated");
+                });
+            }
+        });
+    }
+
+
 }
