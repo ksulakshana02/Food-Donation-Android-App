@@ -7,8 +7,7 @@ public class ModelAd {
     String title;
     String description;
     String quantity;
-    String cookedTime;
-    String bestTime;
+    String expire_date;
     String food_type;
     long timestamp;
     String address;
@@ -18,14 +17,13 @@ public class ModelAd {
     public ModelAd() {
     }
 
-    public ModelAd(String id, String uid, String title, String description, String quantity, String cookedTime, String bestTime, String food_type, long timestamp, String address, double latitude, double longitude) {
+    public ModelAd(String id, String uid, String title, String description, String quantity, String expire_date, String food_type, long timestamp, String address, double latitude, double longitude) {
         this.id = id;
         this.uid = uid;
         this.title = title;
         this.description = description;
         this.quantity = quantity;
-        this.cookedTime = cookedTime;
-        this.bestTime = bestTime;
+        this.expire_date = expire_date;
         this.food_type = food_type;
         this.timestamp = timestamp;
         this.address = address;
@@ -73,20 +71,12 @@ public class ModelAd {
         this.quantity = quantity;
     }
 
-    public String getCookedTime() {
-        return cookedTime;
+    public String getExpire_date() {
+        return expire_date;
     }
 
-    public void setCookedTime(String cookedTime) {
-        this.cookedTime = cookedTime;
-    }
-
-    public String getBestTime() {
-        return bestTime;
-    }
-
-    public void setBestTime(String bestTime) {
-        this.bestTime = bestTime;
+    public void setExpire_date(String expire_date) {
+        this.expire_date = expire_date;
     }
 
     public String getFood_type() {

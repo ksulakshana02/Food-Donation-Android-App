@@ -42,6 +42,10 @@ public class Utils {
         context.startActivity(intent);
     }
 
+    public static void chatIntent(Context context, String phone){
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(""+ Uri.encode(phone)));
+    }
+
     //launch google map with input location
     public static void mapIntent(Context context, double latitude, double longitude){
         //create a uri from an intent string, use the result to create an intent

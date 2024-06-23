@@ -9,12 +9,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#61D9D9D9">
+        android:background="#f0f0f0">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imageIv"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
             android:layout_marginEnd="10dp"
             android:background="@color/quantum_grey"
             android:scaleType="centerCrop"
@@ -25,12 +25,13 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_marginTop="5dp"
             android:layout_toEndOf="@+id/imageIv"
             android:ellipsize="end"
+            android:fontFamily="@font/inter_bold"
+            android:textSize="16dp"
             android:maxLines="1"
-            android:text="The ad title"/>
+            android:text="The ad title" />
 
         <TextView
             android:id="@+id/description"
@@ -40,7 +41,7 @@
             android:layout_toEndOf="@id/imageIv"
             android:layout_below="@id/title"
             android:ellipsize="end"
-            android:lines="3"
+            android:lines="2"
             android:text="Description"/>
 
         <TextView

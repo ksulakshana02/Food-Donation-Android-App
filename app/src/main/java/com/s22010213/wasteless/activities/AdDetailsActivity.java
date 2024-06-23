@@ -264,6 +264,7 @@ public class AdDetailsActivity extends AppCompatActivity {
                             String description = modelAd.getDescription();
                             String address = modelAd.getAddress();
                             String foodType = modelAd.getFood_type();
+                            String expireDate = modelAd.getExpire_date();
                             String quantity = modelAd.getQuantity();
                             adLatitude = modelAd.getLatitude();
                             adLongitude = modelAd.getLongitude();
@@ -298,6 +299,7 @@ public class AdDetailsActivity extends AppCompatActivity {
                             binding.foodTypeTv.setText(foodType);
                             binding.dateTv.setText(formattedDate);
                             binding.quantityTv.setText(quantity + " Available");
+                            binding.expireDateTv.setText(expireDate);
 
                             //function call, load donor info
                             loadDonorDetails();

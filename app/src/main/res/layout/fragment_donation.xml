@@ -135,7 +135,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/cookedTime"
+                android:id="@+id/expireDate"
                 android:layout_width="match_parent"
                 android:layout_below="@+id/quantity"
                 android:layout_marginTop="10dp"
@@ -145,41 +145,41 @@
                 app:boxCornerRadiusBottomStart="8dp"
                 app:boxCornerRadiusBottomEnd="8dp"
                 android:layout_height="wrap_content"
-                android:hint="Cooked Time">
+                android:hint="Expire Date">
 
                 <EditText
-                    android:id="@+id/cookedTimeEdit"
+                    android:id="@+id/expireDateEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="time"/>
+                    android:inputType="date"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/bestTime"
-                android:layout_width="match_parent"
-                android:layout_below="@+id/cookedTime"
-                android:layout_marginTop="10dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxCornerRadiusTopStart="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusBottomEnd="8dp"
-                android:layout_height="wrap_content"
-                android:hint="Best Time">
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:id="@+id/bestTime"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_below="@+id/cookedTime"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--                app:boxCornerRadiusTopStart="8dp"-->
+<!--                app:boxCornerRadiusTopEnd="8dp"-->
+<!--                app:boxCornerRadiusBottomStart="8dp"-->
+<!--                app:boxCornerRadiusBottomEnd="8dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="Best Time">-->
 
-                <EditText
-                    android:id="@+id/bestTimeEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="time"/>
+<!--                <EditText-->
+<!--                    android:id="@+id/bestTimeEdit"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:inputType="time"/>-->
 
-            </com.google.android.material.textfield.TextInputLayout>
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/foodType"
                 android:layout_width="match_parent"
-                android:layout_below="@+id/bestTime"
+                android:layout_below="@+id/expireDate"
                 android:layout_marginTop="10dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 app:boxCornerRadiusTopStart="8dp"

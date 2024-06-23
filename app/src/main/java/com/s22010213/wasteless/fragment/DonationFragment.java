@@ -2,6 +2,7 @@ package com.s22010213.wasteless.fragment;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
@@ -28,6 +29,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -51,6 +53,7 @@ import com.s22010213.wasteless.R;
 import com.s22010213.wasteless.Utils;
 import com.s22010213.wasteless.databinding.FragmentDonationBinding;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -68,7 +71,6 @@ public class DonationFragment extends Fragment {
     private static final String TAG = "DONATION_TAG";
     private boolean isEditMode = false;
     private String adIdForEditing = "";
-    DonationNotifier donationNotifier;
 
     @Override
     public void onAttach(@NonNull Context context){
@@ -156,6 +158,11 @@ public class DonationFragment extends Fragment {
             public void onClick(View v) {
                 validateData();
             }
+        });
+
+        binding.expireDateEdit.setShowSoftInputOnFocus(false);
+        binding.expireDateEdit.setOnClickListener(v -> {
+            openDialog();
         });
 
     }
@@ -342,9 +349,10 @@ public class DonationFragment extends Fragment {
     private String title = "";
     private  String description = "";
     private String quantity = "";
-    private String cookedTime = "";
-    private String bestTime = "";
+//    private String cookedTime = "";
+//    private String bestTime = "";
     private String foodType = "";
+    private String expireDate = "";
     private String address = "";
     private double latitude = 0;
     private double longitude = 0;
@@ -355,8 +363,8 @@ public class DonationFragment extends Fragment {
         title = binding.titleEdit.getText().toString().trim();
         description = binding.descriptionEdit.getText().toString().trim();
         quantity = binding.quantityEdit.getText().toString().trim();
-        cookedTime = binding.cookedTimeEdit.getText().toString().trim();
-        bestTime = binding.bestTimeEdit.getText().toString().trim();
+        expireDate = binding.expireDateEdit.getText().toString().trim();
+//        bestTime = binding.bestTimeEdit.getText().toString().trim();
         foodType = binding.foodTypeEdit.getText().toString().trim();
         address = binding.locationEdit.getText().toString().trim();
 
@@ -372,13 +380,13 @@ public class DonationFragment extends Fragment {
             binding.quantityEdit.setError("Enter Quantity");
             binding.quantityEdit.requestFocus();
 
-        }else if (cookedTime.isEmpty()) {
-            binding.cookedTimeEdit.setError("Enter Cooked Time");
-            binding.cookedTimeEdit.requestFocus();
+        }else if (expireDate.isEmpty()) {
+            binding.expireDate.setError("Add Expire Date");
+            binding.expireDate.requestFocus();
 
-        }else if (bestTime.isEmpty()) {
-            binding.bestTimeEdit.setError("Enter Best Time");
-            binding.bestTimeEdit.requestFocus();
+//        }else if (bestTime.isEmpty()) {
+//            binding.bestTimeEdit.setError("Enter Best Time");
+//            binding.bestTimeEdit.requestFocus();
 
         }else if (foodType.isEmpty()) {
             binding.foodTypeEdit.setError("Choose Food Type");
@@ -419,8 +427,9 @@ public class DonationFragment extends Fragment {
         hashMap.put("title", ""+ title);
         hashMap.put("description", ""+ description);
         hashMap.put("quantity", ""+ quantity);
-        hashMap.put("cooked_time", ""+ cookedTime);
-        hashMap.put("best_time", ""+ bestTime);
+        hashMap.put("expire_date", ""+ expireDate);
+//        hashMap.put("cooked_time", ""+ cookedTime);
+//        hashMap.put("best_time", ""+ bestTime);
         hashMap.put("food_type", ""+ foodType);
         hashMap.put("timestamp", timestamp);
         hashMap.put("address", ""+ address);
@@ -458,8 +467,9 @@ public class DonationFragment extends Fragment {
         hashMap.put("title", ""+ title);
         hashMap.put("description", ""+ description);
         hashMap.put("quantity", ""+ quantity);
-        hashMap.put("cooked_time", ""+ cookedTime);
-        hashMap.put("best_time", ""+ bestTime);
+        hashMap.put("expire_date", ""+ expireDate);
+//        hashMap.put("cooked_time", ""+ cookedTime);
+//        hashMap.put("best_time", ""+ bestTime);
         hashMap.put("food_type", ""+ foodType);
         hashMap.put("address", ""+ address);
         hashMap.put("latitude", latitude);
@@ -564,8 +574,9 @@ public class DonationFragment extends Fragment {
                         String title = ""+ snapshot.child("title").getValue();
                         String description = ""+ snapshot.child("description").getValue();
                         String quantity = ""+ snapshot.child("quantity").getValue();
-                        String bestTime = ""+ snapshot.child("best_time").getValue();
-                        String cookedTime = ""+ snapshot.child("best_time").getValue();
+//                        String bestTime = ""+ snapshot.child("best_time").getValue();
+//                        String cookedTime = ""+ snapshot.child("best_time").getValue();
+                        String expireDate = ""+ snapshot.child("expire_date").getValue();
                         String foodType = ""+ snapshot.child("food_type").getValue();
                         latitude = (Double) snapshot.child("latitude").getValue();
                         longitude = (Double) snapshot.child("longitude").getValue();
@@ -574,8 +585,9 @@ public class DonationFragment extends Fragment {
                         binding.titleEdit.setText(title);
                         binding.descriptionEdit.setText(description);
                         binding.quantityEdit.setText(quantity);
-                        binding.cookedTimeEdit.setText(cookedTime);
-                        binding.bestTimeEdit.setText(bestTime);
+//                        binding.cookedTimeEdit.setText(cookedTime);
+//                        binding.bestTimeEdit.setText(bestTime);
+                        binding.expireDateEdit.setText(expireDate);
                         binding.foodTypeEdit.setText(foodType);
                         binding.locationEdit.setText(address);
 
@@ -607,6 +619,28 @@ public class DonationFragment extends Fragment {
 
                     }
                 });
+    }
+
+    private void openDialog(){
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            LocalDate currentDate = LocalDate.now();
+
+            int year = currentDate.getYear();
+            int month = currentDate.getMonthValue();
+            int day = currentDate.getDayOfMonth();
+
+
+            DatePickerDialog dialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    binding.expireDateEdit.setText(String.valueOf(year) + "." + String.valueOf(month) + "." + String.valueOf(dayOfMonth));
+                }
+            }, year, month, day);
+            dialog.show();
+
+        }
+
     }
 
 }

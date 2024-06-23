@@ -11,12 +11,12 @@ import java.util.Arrays;
 
 public class FcmHelper {
     private static final String SCOPE = "https://www.googleapis.com/auth/firebase.messaging";
-//    private static final String CREDENTIALS_FILE_PATH = "F://BSE/project/serviceAccountKey.json";
+//    private static final String CREDENTIALS_FILE_PATH = "";
     private static GoogleCredentials googleCredentials;
 
     public static String getAccessToken(){
         try {
-            String jsonString = String.valueOf(R.string.private_key);
+            String jsonString = "";
 
             InputStream stream = new ByteArrayInputStream(jsonString.getBytes(StandardCharsets.UTF_8));
 

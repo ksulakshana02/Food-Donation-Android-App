@@ -8,4 +8,5 @@
     <string name="google_map_key">AIzaSyCl8PfRc7Vlt3IumzIZ_LP1GVDCgUYPnwk</string>
     <string name="default_notification_channel_id" translatable="false">default_channel</string>
     <string name="default_web_client_id">509907172759-u9knp1teu65609akerjsm1bme0eedbj8.apps.googleusercontent.com</string>
+    <string name="private_key"></string>
 </resources>

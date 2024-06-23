@@ -116,12 +116,37 @@
                 android:fontFamily="@font/inter_light"
                 tools:text="@tools:sample/lorem[20]" />
 
+            <LinearLayout
+                android:id="@+id/expireDateLy"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:layout_below="@id/descriptionTv">
+
+                <TextView
+                    android:id="@+id/expireDateText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/inter_semibold"
+                    android:text="Expire on "/>
+
+                <TextView
+                    android:id="@+id/expireDateTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/inter_semibold"
+                    tools:text="@tools:sample/date/ddmmyy"/>
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/addressTv"
                 style="@style/TextAppearance.MaterialComponents.Body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/descriptionTv"
+                android:layout_below="@id/expireDateLy"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/inter_light"
                 android:textSize="12sp"
@@ -268,11 +293,6 @@
             android:backgroundTint="@color/blue"
             app:icon="@drawable/ic_location"/>
 
-
-
     </LinearLayout>
-
-
-
 
 </RelativeLayout>
