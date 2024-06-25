@@ -9,12 +9,19 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.*;
 
 public class FcmNotificationSender {
 
     private static final String FCM_URL = "https://fcm.googleapis.com/v1/projects/wasteless-c15c5/messages:send";
+    private static final OkHttpClient client = new OkHttpClient().newBuilder()
+            .callTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30,TimeUnit.SECONDS)
+            .writeTimeout(30,TimeUnit.SECONDS)
+            .retryOnConnectionFailure(true)
+            .build();
 
 
     public static void sendNotificationToAllUsers(Map<String,String> userToken, String title, String body) {
@@ -24,7 +31,6 @@ public class FcmNotificationSender {
     }
 
     private static void sendNotification(String token, String title, String body){
-        OkHttpClient client = new OkHttpClient();
         String accessToken = FcmHelper.getAccessToken();
         if (accessToken == null){
             throw new IllegalArgumentException("Token cannot be null");
@@ -67,12 +73,21 @@ public class FcmNotificationSender {
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (!response.isSuccessful()){
-                    System.err.println("Failed to send notification: " + response.body().string());
-                    throw new IOException("Unexpected code "+ response);
+                try (ResponseBody responseBody = response.body()){
+                    if (responseBody != null){
+                        String responseString = responseBody.string();
+                        if (!response.isSuccessful()) {
+                            System.err.println("Failed to send notification: "+ responseString);
+                            throw new IOException("Unexpected code "+ response);
+                        }
+                        System.out.println("Notification sent: "+ responseString);
+                    }else {
+                        System.err.println("Response body is null");
+                    }
+                } catch (IOException e){
+                    e.printStackTrace();
                 }
-                System.out.println("Notification sent: "+ response.body().string());
-                Log.d("fcm", response.body().string());
+
             }
         });
 

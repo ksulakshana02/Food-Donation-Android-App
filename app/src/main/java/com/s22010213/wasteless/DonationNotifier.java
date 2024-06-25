@@ -22,6 +22,11 @@ public class DonationNotifier {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getChildrenCount() == 0) {
+                    Log.w("fcm", "No user found");
+                    return;
+                }
+
                 Map<String,String> userTokens = new HashMap<>();
                 for (DataSnapshot ds: snapshot.getChildren()) {
                     String token = ds.child("fcmToken").getValue(String.class);

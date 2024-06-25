@@ -16,10 +16,10 @@ import javax.mail.internet.MimeMessage;
 
 public class JavaMailSender {
 
-    private static final String SMTP_SERVER = "email-smtp.us-east-1.amazonaws.com";
-    private static final String USERNAME = "AKIA6ODU6YXKJ66YIL4U";
-    private static final String PASSWORD = "BNnmowuqMoByau0KVp3UC/CTubUMDU5vLilG0e8nMIcj";
-    private static final String SENDER_EMAIL = "kaveeshasulakshana@gmail.com";
+    private static final String SMTP_SERVER = "";
+    private static final String USERNAME = "";
+    private static final String PASSWORD = "";
+    private static final String SENDER_EMAIL = "";
 
 
     public interface EmailSentCallback {
